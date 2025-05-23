@@ -33,19 +33,31 @@ public class LogIn extends JPanel {
 
     public void createLabels() {
         username_label = new JLabel("Username:");
-        username_label.setForeground(LIGHT_TEXT);
+        username_label.setPreferredSize(new Dimension(70, 25));
+        username_label.setOpaque(true);
+        username_label.setForeground(DARK_BG);
+        username_label.setBackground(Color.white);
+
+        username_label.setHorizontalAlignment(JLabel.CENTER);
+        username_label.setVerticalAlignment(JLabel.CENTER);
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.insets = new Insets(5,5,5,5);
         add(username_label, gbc);
 
         pass_label = new JLabel("Password:");
-        pass_label.setForeground(LIGHT_TEXT);
+        pass_label.setPreferredSize(new Dimension(70, 25));
+        pass_label.setOpaque(true);
+        pass_label.setForeground(DARK_BG);
+        pass_label.setBackground(Color.white);
+
+        pass_label.setHorizontalAlignment(JLabel.CENTER);
+        pass_label.setVerticalAlignment(JLabel.CENTER);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.insets = new Insets(5,5,5,5);
         add(pass_label, gbc);
     }
 
@@ -58,7 +70,7 @@ public class LogIn extends JPanel {
 
         gbc.gridx = 1;
         gbc.gridy = 0;
-        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.insets = new Insets(5,5,5,5);
         add(username_txt, gbc);
 
         pass_txt = new JPasswordField();
@@ -69,7 +81,7 @@ public class LogIn extends JPanel {
 
         gbc.gridx = 1;
         gbc.gridy = 1;
-        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.insets = new Insets(5,5,5,5);
         add(pass_txt, gbc);
     }
 
@@ -83,7 +95,7 @@ public class LogIn extends JPanel {
 
         gbc.gridx = 0;
         gbc.gridy = 2;
-        gbc.insets = new Insets(20, 10, 10, 10);
+        gbc.insets = new Insets(5,5,5,5);
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
         add(logIn_btn, gbc);
@@ -97,7 +109,7 @@ public class LogIn extends JPanel {
 
         gbc.gridx = 0;
         gbc.gridy = 3;
-        gbc.insets = new Insets(20, 10, 10, 10);
+        gbc.insets = new Insets(5,5,5,5);
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
         add(close_btn, gbc);
