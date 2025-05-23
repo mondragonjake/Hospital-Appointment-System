@@ -15,7 +15,7 @@ public class LogIn extends JPanel {
     private JLabel username_label, pass_label;
     private JTextField username_txt;
     private JPasswordField pass_txt;
-    private JButton logIn_btn;
+    private JButton logIn_btn, close_btn;
     private Dimension fieldSize = new Dimension(200, 30); // Better size for modern feel
 
     private final Color DARK_BG = new Color(34, 34, 34);        // Dark gray
@@ -87,10 +87,28 @@ public class LogIn extends JPanel {
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
         add(logIn_btn, gbc);
+
+        close_btn = new JButton("Close");
+        close_btn.setPreferredSize(fieldSize);
+        close_btn.setBackground(BUTTON_BG);
+        close_btn.setForeground(LIGHT_TEXT);
+        close_btn.setFocusPainted(false);
+        close_btn.setBorderPainted(false);
+
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.insets = new Insets(20, 10, 10, 10);
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        add(close_btn, gbc);
     }
 
     public JButton getLogInBtn(){
         return logIn_btn;
+    }
+
+    public JButton getCloseBtn(){
+        return close_btn;
     }
 
     public String getUserText(){
