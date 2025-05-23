@@ -1,20 +1,121 @@
+-- ===========================
+-- TABLES
+-- ===========================
+
 CREATE TABLE PATIENTS (
     patient_id INT PRIMARY KEY AUTO_INCREMENT,
-    first_name VARCHAR(100),
-    last_name VARCHAR(100),
-    birthdate DATE,
-    gender ENUM('Male', 'Female', 'Other'),
-    contact_number VARCHAR(15),
-    email VARCHAR(100)
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    birthdate DATE NOT NULL,
+    gender ENUM('Male', 'Female', 'Other') NOT NULL,
+    contact_number VARCHAR(15) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE APPOINTMENTS (
     appointment_id INT PRIMARY KEY AUTO_INCREMENT,
-    patient_id INT,
-    appointment_date DATETIME,
+    patient_id INT NOT NULL,
+    appointment_date DATETIME NOT NULL,
     reason TEXT,
-    FOREIGN KEY (patient_id) REFERENCES PATIENTS(patient_id)
+    FOREIGN KEY (patient_id) REFERENCES PATIENTS(patient_id) ON DELETE CASCADE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
+-- ===========================
+-- STORED PROCEDURES
+-- ===========================
+
+DELIMITER $$
+
+-- Create patient
+CREATE PROCEDURE CreatePatient (
+    IN p_first_name VARCHAR(100),
+    IN p_last_name VARCHAR(100),
+    IN p_birthdate DATE,
+    IN p_gender ENUM('Male', 'Female', 'Other'),
+    IN p_contact_number VARCHAR(15),
+    IN p_email VARCHAR(100)
+)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+    END;
+
+    START TRANSACTION;
+
+    INSERT INTO PATIENTS (first_name, last_name, birthdate, gender, contact_number, email)
+    VALUES (p_first_name, p_last_name, p_birthdate, p_gender, p_contact_number, p_email);
+
+    COMMIT;
+END $$
+
+-- Read patient by ID
+CREATE PROCEDURE ReadPatient (
+    IN p_patient_id INT
+)
+BEGIN
+    SELECT * FROM PATIENTS WHERE patient_id = p_patient_id;
+END $$
+
+-- Update patient by ID
+CREATE PROCEDURE UpdatePatient (
+    IN p_patient_id INT,
+    IN p_first_name VARCHAR(100),
+    IN p_last_name VARCHAR(100),
+    IN p_birthdate DATE,
+    IN p_gender ENUM('Male', 'Female', 'Other'),
+    IN p_contact_number VARCHAR(15),
+    IN p_email VARCHAR(100)
+)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+    END;
+
+    START TRANSACTION;
+
+    UPDATE PATIENTS
+    SET first_name = p_first_name,
+        last_name = p_last_name,
+        birthdate = p_birthdate,
+        gender = p_gender,
+        contact_number = p_contact_number,
+        email = p_email,
+        updated_at = CURRENT_TIMESTAMP
+    WHERE patient_id = p_patient_id;
+
+    COMMIT;
+END $$
+
+-- Delete patient by ID
+CREATE PROCEDURE DeletePatient (
+    IN p_patient_id INT
+)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+    END;
+
+    START TRANSACTION;
+
+    DELETE FROM PATIENTS WHERE patient_id = p_patient_id;
+
+    COMMIT;
+END $$
+
+DELIMITER ;
+
+
+-- ===========================
+-- Sample inputs
+-- ===========================
+
 
 INSERT INTO PATIENTS (first_name, last_name, birthdate, gender, contact_number, email) VALUES
 ('Juan', 'Dela Cruz', '1990-05-12', 'Male', '09171234567', 'juan.delacruz@example.com'),
